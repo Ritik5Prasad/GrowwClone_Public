@@ -1,0 +1,25 @@
+diff --git a/node_modules/react-native-toast-message/lib/src/components/AnimatedContainer.styles.js b/node_modules/react-native-toast-message/lib/src/components/AnimatedContainer.styles.js
+index 9ab2b7f..0a09e23 100644
+--- a/node_modules/react-native-toast-message/lib/src/components/AnimatedContainer.styles.js
++++ b/node_modules/react-native-toast-message/lib/src/components/AnimatedContainer.styles.js
+@@ -11,6 +11,6 @@ export const styles = StyleSheet.create({
+         top: 0
+     },
+     bottom: {
+-        bottom: 0
++        bottom: -10
+     }
+ });
+diff --git a/node_modules/react-native-toast-message/lib/src/types/index.d.ts b/node_modules/react-native-toast-message/lib/src/types/index.d.ts
+index e6e502e..a2f5a2b 100644
+--- a/node_modules/react-native-toast-message/lib/src/types/index.d.ts
++++ b/node_modules/react-native-toast-message/lib/src/types/index.d.ts
+@@ -145,6 +145,8 @@ export declare type ToastProps = {
+      * Default value: `4000`
+      */
+     visibilityTime?: number;
++
++    swipeable?: boolean;
+     /**
+      * When `true`, the visible Toast automatically hides after a certain number of milliseconds,
+      * specified by the `visibilityTime` prop.
