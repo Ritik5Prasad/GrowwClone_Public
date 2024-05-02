@@ -24,7 +24,7 @@ Before you begin, make sure you have Node.js and npm installed on your system.Yo
 1. Clone this repository to your local machine:
 
 ```sh
-   git clone https://github.com/Ritik5Prasad/GrowwClone_public.git
+   git clone https://github.com/Ritik5Prasad/GrowwClone_Public.git
 ```
 
 2. Navigate to the project directory:
