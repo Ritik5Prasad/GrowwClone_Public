@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { View, StyleSheet } from "react-native";
-import Svg, { LinearGradient, Path } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
 
 interface MiniChartsProps {
   color: string;
@@ -31,7 +31,7 @@ const MiniChart: FC<MiniChartsProps> = ({ color, stockData }) => {
     (100 - (value / maxValue) * 100).toFixed(2);
 
   return (
-    <View style={styles.container}>
+    <View>
       <Svg width={containerWidth} height={containerHeight}>
         <Path
           d={
@@ -47,7 +47,6 @@ const MiniChart: FC<MiniChartsProps> = ({ color, stockData }) => {
           strokeWidth="1.5"
           fill="none"
         />
-
         <Path
           d={`M 0 ${containerHeight / 2} L ${containerWidth} ${
             containerHeight / 2
@@ -67,7 +66,6 @@ const styles = StyleSheet.create({
   container: {
     width: 40,
     height: 40,
-
     alignItems: "center",
     justifyContent: "center",
   },

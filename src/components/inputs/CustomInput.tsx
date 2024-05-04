@@ -74,6 +74,7 @@ const CustomInput: React.FC<
       <View
         style={[
           styles.inputContainer,
+
           {
             borderColor: error
               ? Colors.errorColor

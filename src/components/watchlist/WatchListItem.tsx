@@ -4,7 +4,7 @@ import CustomText from "../global/CustomText";
 import { FONTS } from "../../constants/Fonts";
 import { useTheme } from "@react-navigation/native";
 import {
-  formatNumberWithCommas,
+  formatPaisaWithCommas,
   getSignPaisa,
   getSignText,
 } from "../../utils/NumberUtils";
@@ -29,7 +29,7 @@ const WatchListItem: FC<WatchListItemProps> = ({ item }) => {
       />
       <View style={{ alignItems: "flex-end" }}>
         <CustomText variant="h8" fontFamily={FONTS.Medium}>
-          {formatNumberWithCommas(item.current_price)}
+          {formatPaisaWithCommas(item.current_price)}
         </CustomText>
 
         <CustomText
@@ -56,4 +56,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: Platform.OS === "android" ? 1 : 0.5,
   },
 });
+
 export default WatchListItem;

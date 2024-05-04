@@ -18,6 +18,7 @@ const CustomTab: FC<CustomTabProps> = ({ Header, tabs }) => {
   const handleSetIndex = (newIndex: number) => {
     containerRef.current?.setIndex(newIndex);
   };
+
   const checkSheet = async () => {
     if (containerRef.current?.getFocusedTab() === "+ Watchlist") {
       await SheetManager.show("create-watchlist");
@@ -51,7 +52,7 @@ const CustomTab: FC<CustomTabProps> = ({ Header, tabs }) => {
           paddingVertical: 0,
         }}
         pagerProps={{
-          onPageSelected: async (event) => {
+          onPageSelected: (event) => {
             setFocusedIndex(event.nativeEvent.position);
           },
           removeClippedSubviews: true,

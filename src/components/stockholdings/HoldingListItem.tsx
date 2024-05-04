@@ -26,10 +26,12 @@ const HoldingListItem: FC<HoldingListItemProps> = ({ item }) => {
           {item.noOfShares} shares
         </CustomText>
       </View>
+
       <MiniChart
         stockData={item.stockData}
         color={getSignPaisa(item.current - item.invested).color}
       />
+
       <View style={{ alignItems: "flex-end" }}>
         <CustomText
           variant="h8"

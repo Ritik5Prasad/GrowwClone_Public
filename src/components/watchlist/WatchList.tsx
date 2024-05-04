@@ -1,21 +1,46 @@
 import {
   View,
+  Text,
+  RefreshControl,
   TouchableOpacity,
   StyleSheet,
-  RefreshControl,
-  Platform,
 } from "react-native";
 import React, { useState } from "react";
-import CustomText from "../global/CustomText";
-import { FONTS } from "../../constants/Fonts";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import { RFValue } from "react-native-responsive-fontsize";
-import { useTheme } from "@react-navigation/native";
+import { Tabs } from "react-native-collapsible-tab-view";
 import { watchlistData } from "../../utils/staticData";
+import { Colors } from "../../constants/Colors";
+import { useTheme } from "@react-navigation/native";
+import { FONTS } from "../../constants/Fonts";
+import { RFValue } from "react-native-responsive-fontsize";
+import CustomText from "../global/CustomText";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import WatchListItem from "./WatchListItem";
 import TouchableText from "../auth/TouchableText";
-import { Tabs } from "react-native-collapsible-tab-view";
-import { Colors } from "../../constants/Colors";
+
+const WatchList = () => {
+  const [refereshing, setRefreshing] = useState(false);
+  const refreshHandler = async () => {
+    setRefreshing(false);
+  };
+  return (
+    <Tabs.FlatList
+      ListHeaderComponent={() => <Header />}
+      data={watchlistData}
+      refreshControl={
+        <RefreshControl
+          onRefresh={refreshHandler}
+          refreshing={refereshing}
+          colors={[Colors.profit]}
+          tintColor={Colors.profit}
+        />
+      }
+      ListFooterComponent={() => <Footer />}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ padding: 15, marginTop: 20, paddingBottom: 40 }}
+      renderItem={({ item }) => <WatchListItem item={item} />}
+    />
+  );
+};
 
 const Header = () => {
   const { colors } = useTheme();
@@ -50,38 +75,12 @@ const Header = () => {
     </View>
   );
 };
-
 const Footer = () => {
   return (
     <View style={styles.flexRowBetween}>
       <TouchableText firstText="Edit Watchlist" />
       <TouchableText firstText="Add Stocks" />
     </View>
-  );
-};
-
-const WatchList = () => {
-  const [refereshing, setRefreshing] = useState(false);
-  const refreshHandler = async () => {
-    setRefreshing(false);
-  };
-  return (
-    <Tabs.FlatList
-      ListHeaderComponent={() => <Header />}
-      data={watchlistData}
-      refreshControl={
-        <RefreshControl
-          onRefresh={refreshHandler}
-          refreshing={refereshing}
-          colors={[Colors.profit]}
-          tintColor={Colors.profit}
-        />
-      }
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ padding: 15,marginTop:20,paddingBottom:40 }}
-      ListFooterComponent={() => <Footer />}
-      renderItem={({ item }) => <WatchListItem item={item} />}
-    />
   );
 };
 
@@ -104,12 +103,6 @@ const styles = StyleSheet.create({
   arrowIcon: {
     flexDirection: "row",
     alignItems: "center",
-  },
-  verifyHoldingText: {
-    fontSize: RFValue(11),
-    textAlign: "center",
-    marginVertical: 30,
-    fontFamily: FONTS.Medium,
   },
   flexRowBetween: {
     justifyContent: "space-between",

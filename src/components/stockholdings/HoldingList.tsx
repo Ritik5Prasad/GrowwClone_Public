@@ -1,13 +1,14 @@
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
+import { useTheme } from "@react-navigation/native";
 import CustomText from "../global/CustomText";
 import { FONTS } from "../../constants/Fonts";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { RFValue } from "react-native-responsive-fontsize";
-import { useTheme } from "@react-navigation/native";
 import { holdingsData } from "../../utils/staticData";
 import HoldingListItem from "./HoldingListItem";
 import TouchableText from "../auth/TouchableText";
+
 const HoldingList = () => {
   const { colors } = useTheme();
   return (
@@ -19,6 +20,7 @@ const HoldingList = () => {
           </CustomText>
           <Icon name="sort" size={RFValue(11)} color={colors.text} />
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.btn}>
           <View style={styles.arrowIcon}>
             <Icon
@@ -52,29 +54,29 @@ const HoldingList = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 1,
+  },
+  arrowIcon: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   btnContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 15,
   },
-  container:{
-    paddingHorizontal:1
-  },
-  btn: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
-  arrowIcon: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
   verifyHoldingText: {
     fontSize: RFValue(11),
     textAlign: "center",
     marginVertical: 30,
     fontFamily: FONTS.Medium,
+  },
+  btn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
   },
 });
 export default HoldingList;

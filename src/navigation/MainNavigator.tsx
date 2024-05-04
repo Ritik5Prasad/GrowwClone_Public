@@ -12,7 +12,7 @@ const MainNavigator = () => {
         screenOptions={() => ({
           headerShown: false,
         })}
-        initialRouteName="SplashScreen"
+        initialRouteName="BottomTab"
       >
         {mergedStacks.map((item, index) => {
           return (

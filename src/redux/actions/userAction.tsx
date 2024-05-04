@@ -51,12 +51,6 @@ export const CheckEmail = (data: CheckEmail) => async (dispatch: any) => {
     let path = res.data.isExist ? "EmailPasswordScreen" : "EmailOtpScreen";
     navigate(path, { email: data.email });
   } catch (error) {
-    Toast.show({
-      type: "warningToast",
-      props: {
-        msg: "We are not able to connect to our server, please try again later.",
-      },
-    });
     console.log("CHECK EMAIL ERROR-->", error);
   }
 };

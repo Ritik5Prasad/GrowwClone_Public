@@ -1,6 +1,4 @@
 import React, { FC } from "react";
-import { StyleSheet, View } from "react-native";
-import { Tabs } from "react-native-collapsible-tab-view";
 import CustomTab from "../../components/dashboard/CustomTab";
 import StockHeader from "../../components/stocks/StockHeader";
 import Explore from "../../components/stocks/Explore";
@@ -30,23 +28,5 @@ const StockTab: FC = () => {
 
   return <CustomTab tabs={MyTabs} Header={StockHeader} />;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 0,
-    overflow: "hidden",
-    paddingBottom: 0,
-  },
-  box: {
-    height: 250,
-    width: "100%",
-  },
-  boxA: {
-    backgroundColor: "green",
-  },
-  boxB: {
-    backgroundColor: "blue",
-  },
-});
 
 export default StockTab;

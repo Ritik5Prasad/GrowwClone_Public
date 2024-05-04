@@ -1,17 +1,18 @@
-import Icon from "react-native-vector-icons/MaterialIcons";
-import { RFValue } from "react-native-responsive-fontsize";
-import { StyleSheet, View } from "react-native";
+import { View, Text } from "react-native";
+import React from "react";
 import ActionSheet, {
   SheetManager,
   SheetProps,
 } from "react-native-actions-sheet";
 import { useTheme } from "@react-navigation/native";
+import CustomButton from "../components/global/CustomButton";
 import CustomText from "../components/global/CustomText";
 import { FONTS } from "../constants/Fonts";
 import CustomInput from "../components/inputs/CustomInput";
-import CustomButton from "../components/global/CustomButton";
+import { RFValue } from "react-native-responsive-fontsize";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
-const CreateWatchlistSheet = (props: SheetProps<"confirm-sheet">) => {
+const CreateWatchlistSheet = (props: SheetProps<"create-watchlist">) => {
   const { colors } = useTheme();
   return (
     <ActionSheet
@@ -69,7 +70,5 @@ const CreateWatchlistSheet = (props: SheetProps<"confirm-sheet">) => {
     </ActionSheet>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default CreateWatchlistSheet;

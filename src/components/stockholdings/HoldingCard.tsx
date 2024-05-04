@@ -1,14 +1,11 @@
-import { View, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import React from "react";
+import { useTheme } from "@react-navigation/native";
+import { normalizeWidth } from "../../utils/Scaling";
 import CustomText from "../global/CustomText";
 import { FONTS } from "../../constants/Fonts";
-import { normalizeWidth } from "../../utils/Scaling";
-import { useTheme } from "@react-navigation/native";
-import {
-  formatPaisaWithCommas,
-  getSignPaisa,
-} from "../../utils/NumberUtils";
 import { holdingsData } from "../../utils/staticData";
+import { formatPaisaWithCommas, getSignPaisa } from "../../utils/NumberUtils";
 
 const HoldingCard = () => {
   const { colors } = useTheme();
@@ -59,6 +56,7 @@ const HoldingCard = () => {
             {formatPaisaWithCommas(totalCurrent)}
           </CustomText>
         </View>
+
         <View>
           <CustomText
             variant="h9"
@@ -93,6 +91,7 @@ const HoldingCard = () => {
             {formatPaisaWithCommas(totalInvested)}
           </CustomText>
         </View>
+
         <View>
           <CustomText
             variant="h9"
@@ -118,13 +117,13 @@ const HoldingCard = () => {
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginBottom: 15,
-    marginTop: 16,
-    paddingRight: 4,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+  holdingsContainer: {
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    height: normalizeWidth(120),
+    borderWidth: Platform.OS === "android" ? 1 : 0.5,
+    marginBottom: normalizeWidth(13),
+    borderRadius: 6,
   },
   flexRowCenter: {
     justifyContent: "space-between",
@@ -138,14 +137,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 15,
   },
-  holdingsContainer: {
-    paddingHorizontal: 15,
-    paddingVertical: 20,
-    height: normalizeWidth(120),
-    borderWidth: Platform.OS === "android" ? 1 : 0.5,
-    marginBottom: normalizeWidth(13),
-    borderRadius: 6,
-  },
 });
-
 export default HoldingCard;

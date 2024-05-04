@@ -10,7 +10,6 @@ import { useTheme } from "@react-navigation/native";
 import CustomText from "../global/CustomText";
 import { FONTS } from "../../constants/Fonts";
 import {
-  formatNumberWithCommas,
   formatPaisaWithCommas,
   getSignText,
 } from "../../utils/NumberUtils";
