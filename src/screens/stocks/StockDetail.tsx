@@ -12,22 +12,23 @@ import FutureAndOption from "../../components/stockdetails/FutureAndOptions";
 import { candleChartData, ptData } from "../../utils/staticData";
 import { getSignPaisa } from "../../utils/NumberUtils";
 import TradeChart from "../../components/charts/candlechart/TradeChart";
-
-interface StockDetail {
-  route: Record<string, any>;
+import { ParamListBase, RouteProp, useRoute } from "@react-navigation/native";
+interface ParamsType {
+  stock?: any;
 }
-
 const tabs = ["Overview", "F&O"];
 
-const StockDetail: FC<StockDetail> = ({ route }) => {
+const StockDetail: FC = () => {
+  const route = useRoute<RouteProp<ParamListBase>>();
+
+  const stockData = (route.params as ParamsType)?.stock || null;
+
   const [isVisible, setIsVisible] = useState(false);
   const [chartDataLoading, setChartDataLoading] = useState(false);
 
   const [currentTimeFrame, setCurrentTimeFrame] = useState("1D");
   const [currentTab, setCurrentTab] = useState(0);
   const [chartMode, setChartMode] = useState("line");
-
-  const stockData = route.params.stock;
 
   const handleScroll = (event: any) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
