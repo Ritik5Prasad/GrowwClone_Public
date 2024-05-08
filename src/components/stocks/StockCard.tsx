@@ -9,10 +9,7 @@ import React, { FC } from "react";
 import { useTheme } from "@react-navigation/native";
 import CustomText from "../global/CustomText";
 import { FONTS } from "../../constants/Fonts";
-import {
-  formatPaisaWithCommas,
-  getSignText,
-} from "../../utils/NumberUtils";
+import { formatPaisaWithCommas, getSignText } from "../../utils/NumberUtils";
 import { Colors } from "../../constants/Colors";
 import { normalizeWidth } from "../../utils/Scaling";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -66,18 +63,14 @@ const StockItem: FC<StockItem> = ({ item }) => {
         {item.name}
       </CustomText>
       <View style={{ marginTop: 20 }}>
-        <CustomText
-          numberOfLines={1}
-          variant="h8"
-          fontFamily={FONTS.PriceSemiBold}
-        >
+        <CustomText numberOfLines={1} variant="h8" fontFamily={FONTS.Medium}>
           {formatPaisaWithCommas(item.current_price)}
         </CustomText>
         <CustomText
           numberOfLines={1}
           variant="h9"
           style={{ color: isNeutral ? colors.text : isProfit, marginTop: 6 }}
-          fontFamily={FONTS.PriceMedium}
+          fontFamily={FONTS.Medium}
         >
           {getSignText(item.price_change)} ({item.percentage_change})
         </CustomText>

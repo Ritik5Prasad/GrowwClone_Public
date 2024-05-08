@@ -16,6 +16,7 @@ import { normalizeModerately } from "../../utils/Scaling";
 import { useTheme } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { formatNumberWithCommas, getSignText } from "../../utils/NumberUtils";
+import { navigate } from "../../utils/NavigationUtil";
 
 interface FNOIndexesProp {
   item: {
@@ -62,6 +63,11 @@ const FNOIndexes: FC = () => {
       <TouchableOpacity
         style={[styles.indexContainer, { borderColor: colors.border }]}
         activeOpacity={0.6}
+        onPress={() =>
+          navigate("StockDetail", {
+            stock: item,
+          })
+        }
       >
         <CustomText variant="h9" fontFamily={FONTS.Medium}>
           {item.name}
@@ -69,12 +75,12 @@ const FNOIndexes: FC = () => {
         <CustomText
           variant="h9"
           style={styles.subText}
-          fontFamily={FONTS.PriceRegular}
+          fontFamily={FONTS.Regular}
         >
           {formatNumberWithCommas(item.current_price)}{" "}
           <CustomText
             fontSize={RFValue(7)}
-            fontFamily={FONTS.PriceMedium}
+            fontFamily={FONTS.Medium}
             style={{
               color: isNeutral ? colors.text : isProfit,
               fontWeight: "700",
@@ -117,7 +123,7 @@ const styles = StyleSheet.create({
     padding: 14,
     paddingHorizontal: 14,
     borderRadius: 5,
-    borderWidth: Platform.OS==='android'  ? 1 : 0.5,
+    borderWidth: Platform.OS === "android" ? 1 : 0.5,
     minWidth: 140,
     marginRight: 10,
   },

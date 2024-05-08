@@ -14,22 +14,6 @@
       "sha1": "e423e112f4832916b05308934c10aa84fd14c607"
     },
     {
-      "path": "src/assets/fonts/Nunito-Bold.ttf",
-      "sha1": "d8091536d0fab37a3239067f708a0221070835da"
-    },
-    {
-      "path": "src/assets/fonts/Nunito-Medium.ttf",
-      "sha1": "941255b6a8c1e2d286ed9613bd6b354e2423dad9"
-    },
-    {
-      "path": "src/assets/fonts/Nunito-Regular.ttf",
-      "sha1": "465c464793593babb53e51e2a56562cdd79c237d"
-    },
-    {
-      "path": "src/assets/fonts/Nunito-SemiBold.ttf",
-      "sha1": "047ca2a59c253520cc46b3506744fad6ef8192c6"
-    },
-    {
       "path": "src/assets/fonts/Roboto-Black.ttf",
       "sha1": "3f8e401d808f6ce84b542266726514ac8be73171"
     },

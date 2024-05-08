@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import TabHeader from "../dashboard/TabHeader";
 import FNOIndexes from "./FNOIndexes";

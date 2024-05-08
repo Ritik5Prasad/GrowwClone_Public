@@ -1,3 +1,4 @@
+import "./src/sheets/sheet";
 import React from "react";
 import Navigation from "./src/navigation/Navigation";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
@@ -6,7 +7,6 @@ import { toastConfig } from "./ToastConfig";
 import { persistor, store } from "./src/redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import "./src/sheets/sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 GoogleSignin.configure({

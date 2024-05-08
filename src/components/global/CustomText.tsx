@@ -21,6 +21,7 @@ interface Props {
   style?: TextStyle;
   children?: React.ReactNode;
   numberOfLines?: number;
+  onLayout?: (event: object) => void;
 }
 
 const CustomText: React.FC<Props> = ({
@@ -28,6 +29,7 @@ const CustomText: React.FC<Props> = ({
   fontFamily = FONTS.Regular,
   fontSize,
   style,
+  onLayout,
   children,
   numberOfLines,
 }) => {
@@ -89,6 +91,7 @@ const CustomText: React.FC<Props> = ({
 
   return (
     <Text
+      onLayout={onLayout}
       style={[
         styles.text,
         { color: colors.text, fontSize: computedFontSize },
