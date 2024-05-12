@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Platform,
   TextStyle,
-  useColorScheme,
 } from "react-native";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -17,6 +16,7 @@ import { FONTS } from "../../constants/Fonts";
 import { useTheme } from "@react-navigation/native";
 import CustomText from "../global/CustomText";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useCustomColorScheme } from "../../navigation/Theme";
 
 interface InputProps {
   label?: string;
@@ -50,7 +50,7 @@ const CustomDateInput: React.FC<
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const theme = useColorScheme();
+  const theme = useCustomColorScheme();
 
   const monthInputRef = useRef<TextInput>(null);
   const yearInputRef = useRef<TextInput>(null);
@@ -251,7 +251,7 @@ const CustomDateInput: React.FC<
           isVisible={showDatePicker}
           mode="date"
           onConfirm={handleDateChange}
-          onCancel={()=>setShowDatePicker(false)}
+          onCancel={() => setShowDatePicker(false)}
         />
       </View>
       {error && (

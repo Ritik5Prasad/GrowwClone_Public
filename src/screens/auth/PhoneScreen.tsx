@@ -23,7 +23,7 @@ import { selectUser } from "../../redux/reducers/userSlice";
 const PhoneScreen = () => {
   const { colors } = useTheme();
   const user = useAppSelector(selectUser);
-  const theme = useColorScheme();
+    const theme = useCustomColorScheme();;
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);

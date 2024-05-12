@@ -1,20 +1,18 @@
-import {
-  StyleSheet,
-  Animated,
-  useColorScheme,
-} from "react-native";
+import { StyleSheet, Animated, ViewStyle } from "react-native";
 import React, { FC, useEffect, useState } from "react";
 import { useTheme } from "@react-navigation/native";
 import CustomText from "./CustomText";
 import { FONTS } from "../../constants/Fonts";
 import { Colors as colorw } from "../../constants/Colors";
 import TouchableRipple from "react-native-material-ripple";
+import { useCustomColorScheme } from "../../navigation/Theme";
 
 interface CustomButtonProps {
   text: string;
   loading: boolean;
   disabled: boolean;
   onPress: () => void;
+  style?: ViewStyle;
 }
 
 const CustomButton: FC<CustomButtonProps> = ({
@@ -22,9 +20,10 @@ const CustomButton: FC<CustomButtonProps> = ({
   loading,
   disabled,
   onPress,
+  style,
 }) => {
   const { colors } = useTheme();
-  const theme = useColorScheme();
+  const theme = useCustomColorScheme();
   const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -62,6 +61,7 @@ const CustomButton: FC<CustomButtonProps> = ({
                 : "#DFDFDF"
               : colorw.profit,
         },
+        style,
       ]}
     >
       <CustomText

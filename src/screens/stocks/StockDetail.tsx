@@ -1,7 +1,7 @@
 import { StyleSheet, ScrollView, View } from "react-native";
 import React, { FC, useState } from "react";
 import CustomSafeAreaView from "../../components/global/CustomSafeAreaView";
-import StockDetailHeader from "../../components/global/StockDetailHeader";
+import StockDetailHeader from "../../components/headers/StockDetailHeader";
 import Details from "./Details";
 import TimeFrame from "../../components/charts/TimeFrame";
 import MediumChart from "../../components/charts/linechart/MediumChart";
@@ -13,6 +13,7 @@ import { candleChartData, ptData } from "../../utils/staticData";
 import { getSignPaisa } from "../../utils/NumberUtils";
 import TradeChart from "../../components/charts/candlechart/TradeChart";
 import { ParamListBase, RouteProp, useRoute } from "@react-navigation/native";
+import { navigate } from "../../utils/NavigationUtil";
 interface ParamsType {
   stock?: any;
 }
@@ -42,6 +43,12 @@ const StockDetail: FC = () => {
     }
   };
 
+  const onPressExpandHandler = () => {
+    navigate("TradingView", {
+      stock: stockData,
+    });
+  };
+
   return (
     <CustomSafeAreaView style={styles.container}>
       <StockDetailHeader stock={stockData} isVisible={isVisible} />
@@ -57,12 +64,12 @@ const StockDetail: FC = () => {
               data={ptData}
               loading={chartDataLoading}
               color={getSignPaisa(stockData?.price_change).color}
-              onPressExpand={() => {}}
+              onPressExpand={onPressExpandHandler}
             />
           ) : (
             <TradeChart
               data={candleChartData}
-              onPressExpand={() => {}}
+              onPressExpand={onPressExpandHandler}
               loading={chartDataLoading}
               color={getSignPaisa(stockData?.price_change).color}
             />

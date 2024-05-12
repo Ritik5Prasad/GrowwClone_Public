@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  useColorScheme,
-  SafeAreaView,
-  StyleSheet,
-} from "react-native";
+import { View, SafeAreaView, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useTheme } from "@react-navigation/native";
 import NetInfo from "@react-native-community/netinfo";
@@ -13,9 +7,10 @@ import { RFValue } from "react-native-responsive-fontsize";
 import CustomText from "./CustomText";
 import { Colors } from "../../constants/Colors";
 import { FONTS } from "../../constants/Fonts";
+import { useCustomColorScheme } from "../../navigation/Theme";
 
 const NoInternet = () => {
-  const theme = useColorScheme();
+  const theme = useCustomColorScheme();
   const { colors } = useTheme();
   const [isConnected, setIsConnected] = useState(true);
 

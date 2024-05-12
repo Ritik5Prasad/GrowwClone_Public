@@ -6,7 +6,6 @@ import {
   TextInput,
   Platform,
   TextStyle,
-  useColorScheme,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon2 from "react-native-vector-icons/Ionicons";
@@ -14,6 +13,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { Colors } from "../../constants/Colors";
 import { FONTS } from "../../constants/Fonts";
 import { useTheme } from "@react-navigation/native";
+import { useCustomColorScheme } from "../../navigation/Theme";
 
 interface InputProps {
   label?: string;
@@ -54,7 +54,7 @@ const CustomInput: React.FC<
   const { colors } = useTheme();
   const [isFocused, setIsFocused] = useState(false);
   const [hideEyeIcon, setHideEyeIcon] = useState(true);
-  const theme = useColorScheme();
+  const theme = useCustomColorScheme();
   return (
     <View style={styles.inputMainContainer}>
       {label && (
@@ -92,10 +92,10 @@ const CustomInput: React.FC<
           style={[
             styles.textInput,
             {
-              ...textInputStyle,
               textAlignVertical: textTop ? "top" : "center",
               color: colors.text,
             },
+            textInputStyle,
           ]}
           secureTextEntry={password ? hideEyeIcon : false}
           autoCorrect={false}

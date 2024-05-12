@@ -5,7 +5,6 @@ import {
   View,
   TextInput,
   Platform,
-  useColorScheme,
   TouchableOpacity,
 } from "react-native";
 import Icon2 from "react-native-vector-icons/Ionicons";
@@ -15,6 +14,7 @@ import { FONTS } from "../../constants/Fonts";
 import { useTheme } from "@react-navigation/native";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons";
 import CustomText from "../global/CustomText";
+import { useCustomColorScheme } from "../../navigation/Theme";
 interface InputProps {
   label?: string;
   error?: string;
@@ -39,7 +39,7 @@ const CustomRadioInput: React.FC<
 }) => {
   const { colors } = useTheme();
 
-  const theme = useColorScheme();
+  const theme = useCustomColorScheme();
   return (
     <View style={styles.inputMainContainer}>
       {label && (
@@ -69,7 +69,7 @@ const CustomRadioInput: React.FC<
                     ? "circle-slice-8"
                     : "checkbox-blank-circle-outline"
                 }
-                color={selected ==text? colors.primary : colors.text}
+                color={selected == text ? colors.primary : colors.text}
                 size={RFValue(14)}
               />
               <CustomText variant="h8">{text.toLocaleUpperCase()}</CustomText>

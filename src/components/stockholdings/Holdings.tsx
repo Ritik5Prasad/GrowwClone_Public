@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  RefreshControl,
-  StyleSheet,
-  useColorScheme,
-  Image,
-} from "react-native";
+import { View, RefreshControl, StyleSheet, Image } from "react-native";
 import React, { useState } from "react";
 import { Colors } from "../../constants/Colors";
 import { Tabs } from "react-native-collapsible-tab-view";
@@ -16,6 +9,7 @@ import HoldingList from "./HoldingList";
 import NoHoldingLight from "../../assets/images/no_holding_light.png";
 import NoHoldingDark from "../../assets/images/no_holding_dark.png";
 import { screenHeight, screenWidth } from "../../utils/Scaling";
+import { useCustomColorScheme } from "../../navigation/Theme";
 
 const Holdings = () => {
   const [refereshing, setRefreshing] = useState(false);
@@ -23,7 +17,7 @@ const Holdings = () => {
     setRefreshing(false);
   };
 
-  const theme = useColorScheme();
+  const theme = useCustomColorScheme();
 
   return (
     <Tabs.ScrollView

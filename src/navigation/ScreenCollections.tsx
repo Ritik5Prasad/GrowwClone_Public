@@ -13,6 +13,10 @@ import AuthVerificationScreen from "../screens/auth/AuthVerificationScreen";
 import SplashScreen from "../screens/deeplinks/SplashScreen";
 import BottomTab from "./BottomTab";
 import StockDetail from "../screens/stocks/StockDetail";
+import TradingView from "../screens/stocks/TradingView";
+import Transaction from "../screens/stocks/Transaction";
+import TransactionSuccess from "../screens/stocks/TransactionSuccess";
+import ProfileScreen from "../screens/auth/ProfileScreen";
 
 export const authStacks = [
   {
@@ -67,6 +71,10 @@ export const authStacks = [
     name: "SplashScreen",
     component: SplashScreen,
   },
+  {
+    name: "ProfileScreen",
+    component: ProfileScreen,
+  },
 ];
 
 export const dashboardStack = [
@@ -77,6 +85,18 @@ export const dashboardStack = [
   {
     name: "StockDetail",
     component: StockDetail,
+  },
+  {
+    name: "TradingView",
+    component: TradingView,
+  },
+  {
+    name: "Transaction",
+    component: Transaction,
+  },
+  {
+    name: "TransactionSuccess",
+    component: TransactionSuccess,
   },
 ];
 

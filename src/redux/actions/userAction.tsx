@@ -12,6 +12,7 @@ import { appAxios } from "../apiConfig";
 import Toast from "react-native-toast-message";
 import { setUser } from "../reducers/userSlice";
 import { deleteBiometricPublicKey } from "../../utils/BiometricsUtils";
+import { persistor } from "../store";
 
 interface CheckEmail {
   email: string;
@@ -246,11 +247,13 @@ export const CheckProfile = () => async (dispatch: any) => {
 export const Logout = () => async (dispatch: any) => {
   try {
     const res = await appAxios.post("/auth/logout");
-    token_storage.clearAll();
+    await token_storage.clearAll();
+    await persistor.purge();
     resetAndNavigate("LoginScreen");
     await deleteBiometricPublicKey();
   } catch (error: any) {
-    token_storage.clearAll();
+    await token_storage.clearAll();
+    await persistor.purge();
     resetAndNavigate("LoginScreen");
     console.log("LOG OUT ->", error);
   }

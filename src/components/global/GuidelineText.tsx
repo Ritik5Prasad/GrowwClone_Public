@@ -1,17 +1,18 @@
-import { View, Text, StyleSheet, useColorScheme } from "react-native";
+import { View, StyleSheet } from "react-native";
 import React, { FC } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import { RFValue } from "react-native-responsive-fontsize";
 import CustomText from "./CustomText";
 import { FONTS } from "../../constants/Fonts";
 import { useTheme } from "@react-navigation/native";
+import { useCustomColorScheme } from "../../navigation/Theme";
 
 interface GuidelineTextProps {
   text: any;
 }
 
 const GuidelineText: FC<GuidelineTextProps> = ({ text }) => {
-  const theme = useColorScheme();
+  const theme = useCustomColorScheme();
   const { colors } = useTheme();
   return (
     <View

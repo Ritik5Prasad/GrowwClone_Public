@@ -36,15 +36,6 @@ const PointerChart: FC<Chart> = ({ height, data, color }) => {
         thickness: 1,
         color: Colors.unactive_tab,
       }}
-      onScroll={() => {
-        console.log("Hey");
-      }}
-      onEndReached={() => {
-        console.log("Hey");
-      }}
-      onMomentumScrollEnd={() => {
-        console.log("Hey");
-      }}
       getPointerProps={(props: any) => {
         setMeasure(props.pointerX);
       }}

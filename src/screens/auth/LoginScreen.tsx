@@ -1,8 +1,8 @@
-import React, { FC, useEffect } from "react";
+import React, { FC  } from "react";
 import CustomText from "../../components/global/CustomText";
 import CustomSafeAreaView from "../../components/global/CustomSafeAreaView";
 import { FONTS } from "../../constants/Fonts";
-import { Image, StyleSheet, View, useColorScheme } from "react-native";
+import { Image, StyleSheet, View  } from "react-native";
 import LoginImageDark from "../../assets/images/login_dark_animation.png";
 import LoginImageLight from "../../assets/images/login_animation_light.png";
 import GoogleIcon from "../../assets/images/google.png";
@@ -18,9 +18,10 @@ import BottomText from "../../components/auth/BottomText";
 import { signInWithApple, signInWithGoogle } from "../../redux/SocialLogin";
 import { navigate } from "../../utils/NavigationUtil";
 import { useAppDispatch } from "../../redux/reduxHook";
+import { useCustomColorScheme } from "../../navigation/Theme";
 
 const LoginScreen: FC = () => {
-  const theme = useColorScheme();
+  const theme = useCustomColorScheme();
   const dispatch = useAppDispatch();
   return (
     <CustomSafeAreaView>

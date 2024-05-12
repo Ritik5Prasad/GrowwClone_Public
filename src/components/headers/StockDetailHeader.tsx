@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useTheme } from "@react-navigation/native";
 import { RFValue } from "react-native-responsive-fontsize";
-import CustomText from "./CustomText";
+import CustomText from "../global/CustomText";
 import {
   formatNumberWithCommas,
   getSignPaisa,

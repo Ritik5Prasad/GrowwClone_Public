@@ -6,7 +6,7 @@ import CustomText from "../global/CustomText";
 import { FONTS } from "../../constants/Fonts";
 import { RFValue } from "react-native-responsive-fontsize";
 import Icon2 from "react-native-vector-icons/Ionicons";
-import { useColorScheme } from "react-native";
+import { useCustomColorScheme } from "../../navigation/Theme";
 
 interface OTPInputProps {
   otpValues: any;
@@ -21,7 +21,7 @@ const OTPInput: React.FC<OTPInputProps> = ({
 }) => {
   const { colors } = useTheme();
   const [shakeAnimation] = useState(new Animated.Value(0));
-  const theme = useColorScheme();
+  const theme = useCustomColorScheme();
   useEffect(() => {
     if (error) {
       shake();

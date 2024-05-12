@@ -1,18 +1,14 @@
-import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  useColorScheme,
-} from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import CustomText from "../global/CustomText";
 import { ProductAndToolsData } from "../../utils/staticData";
 import { useTheme } from "@react-navigation/native";
 import { FONTS } from "../../constants/Fonts";
+import { useCustomColorScheme } from "../../navigation/Theme";
 
 const ProductAndTools = () => {
   const { colors } = useTheme();
-  const theme = useColorScheme();
+  const theme = useCustomColorScheme();
   const tabstyle = {
     padding: 16,
     borderRadius: 10,
