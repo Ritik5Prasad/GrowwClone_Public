@@ -7,8 +7,15 @@ import CustomText from "../../components/global/CustomText";
 import { FONTS } from "../../constants/Fonts";
 import CustomButton from "../../components/global/CustomButton";
 import { resetAndNavigate } from "../../utils/NavigationUtil";
-
+import { ParamListBase, RouteProp, useRoute } from "@react-navigation/native";
+interface ParamsType {
+  msg?: string;
+}
 const TransactionSuccess: FC = () => {
+  const route = useRoute<RouteProp<ParamListBase>>();
+
+  const msg = (route.params as ParamsType)?.msg || null;
+
   return (
     <CustomSafeAreaView>
       <View style={styles.container}>
@@ -26,9 +33,9 @@ const TransactionSuccess: FC = () => {
           <CustomText
             variant="h8"
             fontFamily={FONTS.Regular}
-            style={{ marginTop: 20 }}
+            style={{ marginTop: 20, textAlign: "center" }}
           >
-            Your investment of ₹10,000 completed
+            {msg}
           </CustomText>
         </View>
       </View>

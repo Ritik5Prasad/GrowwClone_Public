@@ -1,12 +1,5 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  useColorScheme,
-} from "react-native";
-import React, { FC } from "react";
+import { View, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import React, { FC, useEffect } from "react";
 import CustomSafeAreaView from "../../components/global/CustomSafeAreaView";
 import ProfileHeader from "../../components/headers/ProfileHeader";
 import UserAvatar from "../../components/dashboard/UserAvatar";
@@ -18,7 +11,7 @@ import { selectUser } from "../../redux/reducers/userSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/reduxHook";
 import { useTheme } from "@react-navigation/native";
 import { RFValue } from "react-native-responsive-fontsize";
-import { Logout } from "../../redux/actions/userAction";
+import { Logout, refetchUser } from "../../redux/actions/userAction";
 import { toggleColorScheme } from "../../redux/reducers/themeSlice";
 import { useCustomColorScheme } from "../../navigation/Theme";
 
@@ -36,7 +29,10 @@ const ProfileItem: FC<ProfileItemProps> = ({
   onPress,
 }) => {
   const { colors } = useTheme();
-
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(refetchUser());
+  }, []);
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -114,7 +110,7 @@ const ProfileScreen = () => {
               color={colors.text}
             />
           }
-          title="₹24000.00"
+          title={`₹${user?.balance}`}
           description="Stocks, F&O Balance"
         />
 

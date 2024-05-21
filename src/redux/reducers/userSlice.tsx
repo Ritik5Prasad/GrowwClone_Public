@@ -4,16 +4,17 @@ import type { RootState } from "../store";
 
 interface UserState {
   user: {
-    name?:string,
-    userId?:string,
-    email?:string,
-    login_pin_exist?:string,
-    phone_exist?:string
-  } 
+    name?: string;
+    userId?: string;
+    email?: string;
+    login_pin_exist?: string;
+    phone_exist?: string;
+    balance?: number;
+  };
 }
 
 const initialState: UserState = {
-  user: {}
+  user: {},
 };
 
 export const userSlice = createSlice({

@@ -1,5 +1,5 @@
 import { StyleSheet, ScrollView, View } from "react-native";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import CustomSafeAreaView from "../../components/global/CustomSafeAreaView";
 import StockDetailHeader from "../../components/headers/StockDetailHeader";
 import Details from "./Details";
@@ -9,20 +9,61 @@ import DetailTab from "../../components/stockdetails/DetailTab";
 import Overview from "../../components/stockdetails/Overview";
 import { screenHeight } from "../../utils/Scaling";
 import FutureAndOption from "../../components/stockdetails/FutureAndOptions";
-import { candleChartData, ptData } from "../../utils/staticData";
 import { getSignPaisa } from "../../utils/NumberUtils";
 import TradeChart from "../../components/charts/candlechart/TradeChart";
 import { ParamListBase, RouteProp, useRoute } from "@react-navigation/native";
 import { navigate } from "../../utils/NavigationUtil";
+import { useWS } from "../../utils/WSProvider";
 interface ParamsType {
   stock?: any;
 }
 const tabs = ["Overview", "F&O"];
 
+type Stock = {
+  __v: number;
+  _id: string;
+  companyName: string;
+  currentPrice: number;
+  iconUrl: string;
+  lastDayTradedPrice: number;
+  symbol: string;
+  dayTimeSeries: Array<TimeSeries>;
+  tenMinTimeSeries: Array<TimeSeries>;
+};
+
+type TimeSeries = {
+  _internal_originalTime: number;
+  close: number;
+  high: number;
+  low: number;
+  open: number;
+  time: number;
+  timestamp: string;
+};
+
 const StockDetail: FC = () => {
   const route = useRoute<RouteProp<ParamListBase>>();
-
+  const socketService = useWS();
   const stockData = (route.params as ParamsType)?.stock || null;
+
+  const [stockSocketData, setSocketStockData] = useState<Stock | any>(null);
+  useEffect(() => {
+    if (socketService && stockData.symbol) {
+      socketService.emit("subscribeToStocks", stockData.symbol);
+
+      socketService.on(stockData.symbol, (data) => {
+        setSocketStockData(data);
+      });
+
+      return () => {};
+    }
+  }, [socketService]);
+
+  const priceChange =
+    stockSocketData?.currentPrice - stockSocketData?.lastDayTradedPrice;
+  const percentageChange = Math.abs(
+    (priceChange / stockSocketData?.lastDayTradedPrice) * 100
+  ).toFixed(2);
 
   const [isVisible, setIsVisible] = useState(false);
   const [chartDataLoading, setChartDataLoading] = useState(false);
@@ -44,34 +85,55 @@ const StockDetail: FC = () => {
   };
 
   const onPressExpandHandler = () => {
-    navigate("TradingView", {
-      stock: stockData,
-    });
+    const { tenMinTimeSeries, dayTimeSeries, ...stockWithoutTimeSeries } =
+      stockData as Stock;
+    navigate("TradingView", { stock: stockWithoutTimeSeries });
   };
 
   return (
     <CustomSafeAreaView style={styles.container}>
-      <StockDetailHeader stock={stockData} isVisible={isVisible} />
+      <StockDetailHeader
+        stock={{
+          companyName: stockData?.companyName,
+          priceChange: priceChange,
+          currentPrice: stockSocketData?.currentPrice,
+          percentageChange: percentageChange,
+        }}
+        isVisible={isVisible}
+      />
       <ScrollView
         onScroll={handleScroll}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
       >
         <View style={[styles.subContainer, { paddingTop: 0 }]}>
-          <Details data={stockData} />
+          <Details
+            data={{
+              companyName: stockData?.companyName,
+              priceChange: priceChange,
+              currentPrice: stockSocketData?.currentPrice,
+              percentageChange: percentageChange,
+              iconUrl: stockData?.iconUrl,
+            }}
+          />
           {chartMode == "line" ? (
             <MediumChart
-              data={ptData}
+              data={stockSocketData?.tenMinTimeSeries.map(
+                ({ close, time }: any) => ({
+                  value: close,
+                  time: time,
+                })
+              )}
               loading={chartDataLoading}
-              color={getSignPaisa(stockData?.price_change).color}
+              color={getSignPaisa(priceChange).color}
               onPressExpand={onPressExpandHandler}
             />
           ) : (
             <TradeChart
-              data={candleChartData}
+              data={stockSocketData?.dayTimeSeries || []}
               onPressExpand={onPressExpandHandler}
               loading={chartDataLoading}
-              color={getSignPaisa(stockData?.price_change).color}
+              color={getSignPaisa(priceChange).color}
             />
           )}
           <TimeFrame

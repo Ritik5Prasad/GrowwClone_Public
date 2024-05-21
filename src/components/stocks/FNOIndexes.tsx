@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
+  Alert,
 } from "react-native";
 import { FnoIndexesData } from "../../utils/staticData";
 import CustomText from "../global/CustomText";
@@ -16,7 +17,6 @@ import { normalizeModerately } from "../../utils/Scaling";
 import { useTheme } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { formatNumberWithCommas, getSignText } from "../../utils/NumberUtils";
-import { navigate } from "../../utils/NavigationUtil";
 
 interface FNOIndexesProp {
   item: {
@@ -63,11 +63,7 @@ const FNOIndexes: FC = () => {
       <TouchableOpacity
         style={[styles.indexContainer, { borderColor: colors.border }]}
         activeOpacity={0.6}
-        onPress={() =>
-          navigate("StockDetail", {
-            stock: item,
-          })
-        }
+        onPress={() => Alert.alert("Future and Option coming soon!")}
       >
         <CustomText variant="h9" fontFamily={FONTS.Medium}>
           {item.name}

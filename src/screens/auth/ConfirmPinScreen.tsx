@@ -9,9 +9,10 @@ import OTPInput from "../../components/inputs/OTPInput";
 import BackButton from "../../components/global/BackButton";
 import { useAppDispatch } from "../../redux/reduxHook";
 import { SetLoginPin } from "../../redux/actions/userAction";
-
+import { useWS } from "../../utils/WSProvider";
 const ConfirmPinScreen = ({ route }: any) => {
   const dispatch = useAppDispatch();
+  const { updateAccessToken } = useWS();
   const [otpValues, setOtpValues] = useState(["", "", "", ""]);
   const [focusedIndex, setFocusedIndex] = useState(0);
   const [otpError, setOtpError] = useState<string | null>(null);
@@ -51,7 +52,9 @@ const ConfirmPinScreen = ({ route }: any) => {
     }
 
     if (!valid) {
-      await dispatch(SetLoginPin({ login_pin: otpValues.join("") }));
+      await dispatch(
+        SetLoginPin({ login_pin: otpValues.join("") }, updateAccessToken)
+      );
     }
   };
 

@@ -11,11 +11,11 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 GoogleSignin.configure({
   webClientId:
-    "320736144886-bh8rfr3gdudlcm5h55v9g3bujlhffj46.apps.googleusercontent.com",
+    "YOUR_WEB_CLIENT_ID",
   forceCodeForRefreshToken: true,
   offlineAccess: false,
   iosClientId:
-    "320736144886-bhtrdr693ecb53ddmim0chajgsr5b921.apps.googleusercontent.com",
+    "YOUR_WEB_CLIENT_ID",
 });
 
 const App = () => {

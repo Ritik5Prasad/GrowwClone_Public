@@ -92,7 +92,7 @@ export const EmailLogin = (data: EmailLogin) => async (dispatch: any) => {
 
 export const VerifyOTP = (data: VerifyOTP) => async (dispatch: any) => {
   try {
-    console.log(data);
+ 
     const res = await axios.post(VERIFY_OTP, data);
     console.log("VERIFY OTP ->", res.data);
 
@@ -138,7 +138,7 @@ export const VerifyOTP = (data: VerifyOTP) => async (dispatch: any) => {
 
 export const SendOTP = (data: SendOTP) => async (dispatch: any) => {
   try {
-    console.log(data);
+   
     const res = await axios.post(SEND_OTP, data);
     console.log("SEND OTP ->", res.data);
 
@@ -188,7 +188,8 @@ export const UpdateProfile = (data: Profile) => async (dispatch: any) => {
   }
 };
 
-export const SetLoginPin = (data: LoginPin) => async (dispatch: any) => {
+export const SetLoginPin =
+(data: LoginPin, updateHook: () => void) => async (dispatch: any) => {
   try {
     const res = await appAxios.post("/auth/set-pin", data);
     console.log(res.data);
@@ -200,30 +201,31 @@ export const SetLoginPin = (data: LoginPin) => async (dispatch: any) => {
       "socket_refresh_token",
       res.data.socket_tokens.socket_refresh_token
     );
+    updateHook();
     resetAndNavigate("AccountProtectedScreen");
   } catch (error: any) {
     console.log("SET LOGIN PIN ->", error);
   }
 };
 
-export const VerifyPin = (data: LoginPin) => async (dispatch: any) => {
-  try {
-    const res = await appAxios.post("/auth/verify-pin", data);
-    console.log(res.data);
-    token_storage.set(
-      "socket_access_token",
-      res.data.socket_tokens.socket_access_token
-    );
-    token_storage.set(
-      "socket_refresh_token",
-      res.data.socket_tokens.socket_refresh_token
-    );
-    return { msg: "Success", result: true };
-  } catch (error: any) {
-    console.log("VERIFY PIN ->", error);
-    return { msg: error?.response?.data?.msg, result: false };
-  }
-};
+export const VerifyPin =
+  (data: LoginPin, updateHook: () => void) => async (dispatch: any) => {
+    try {
+      const res = await appAxios.post("/auth/verify-pin", data);
+      console.log(res.data);
+      const access_token = res.data.socket_tokens.socket_access_token;
+      token_storage.set("socket_access_token", access_token);
+      token_storage.set(
+        "socket_refresh_token",
+        res.data.socket_tokens.socket_refresh_token
+      );
+      updateHook();
+      return { msg: "Success", result: true };
+    } catch (error: any) {
+      console.log("VERIFY PIN ->", error);
+      return { msg: error?.response?.data?.msg, result: false };
+    }
+  };
 
 export const CheckProfile = () => async (dispatch: any) => {
   try {
@@ -239,6 +241,15 @@ export const CheckProfile = () => async (dispatch: any) => {
     } else {
       resetAndNavigate("AuthVerificationScreen");
     }
+  } catch (error: any) {
+    console.log("PROFILE ->", error);
+  }
+};
+
+export const refetchUser = () => async (dispatch: any) => {
+  try {
+    const res = await appAxios.get("/auth/profile");
+    await dispatch(setUser(res.data));
   } catch (error: any) {
     console.log("PROFILE ->", error);
   }

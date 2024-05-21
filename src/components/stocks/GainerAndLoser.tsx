@@ -3,11 +3,25 @@ import { View, StyleSheet } from "react-native";
 import MaterialTab from "../global/MaterialTab";
 import CircleTab from "../global/CircleTab";
 import StockCard from "./StockCard";
-import { Gainers, Losers } from "../../utils/staticData";
+import { useAppSelector } from "../../redux/reduxHook";
+import { selectStocks } from "../../redux/reducers/stockSlice";
 
 const GainerAndLoser = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [marketCap, setMarketCap] = useState(0);
+  const stockData = useAppSelector(selectStocks);
+  const Gainers = [
+    ...stockData.slice(0,3),
+    {
+      name: "Gainers",
+    },
+  ];
+  const Losers = [
+    ...stockData.slice(0, 3),
+    {
+      name: "Losers",
+    },
+  ];
 
   return (
     <View style={styles.container}>

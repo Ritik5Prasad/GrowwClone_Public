@@ -1,4 +1,4 @@
-import { View, StyleSheet, ActivityIndicator, Platform } from "react-native";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import React, { FC, useState } from "react";
 import {
   ParamListBase,
@@ -13,6 +13,8 @@ import { Colors } from "../../constants/Colors";
 import { navigate } from "../../utils/NavigationUtil";
 import WebView from "react-native-webview";
 import { useCustomColorScheme } from "../../navigation/Theme";
+import { token_storage } from "../../redux/storage";
+import { TRADINGVIEW_WEB_URI } from "../../redux/API";
 
 interface ParamsType {
   stock?: any;
@@ -23,8 +25,8 @@ const TradingView: FC = () => {
   const stockData = (route.params as ParamsType)?.stock || null;
   const { colors } = useTheme();
   const theme = useCustomColorScheme();
+  const socketToken = token_storage.getString("socket_access_token");
   const [loading, setLoading] = useState(true);
-
   return (
     <CustomSafeAreaView style={styles.container}>
       <TradingViewHeader />
@@ -35,12 +37,10 @@ const TradingView: FC = () => {
           backgroundColor: colors.background,
           right: -1,
         }}
+        // FOR HAVING DEMO OF ADVANCED TRADING VIEW CHART
         // source={{ uri: "https://charting-library.tradingview-widget.com" }}
         source={{
-          uri:
-            Platform.OS == "ios"
-              ? `http://localhost:3001/?theme=${theme}&timeframe=1d`
-              : `http://10.0.2.2:3001/?theme=${theme}&timeframe=1d`,
+          uri: `${TRADINGVIEW_WEB_URI}?theme=${theme}&stock=${stockData?.symbol}&token=${socketToken}`,
         }}
         allowFileAccessFromFileURLs={true}
         domStorageEnabled={true}

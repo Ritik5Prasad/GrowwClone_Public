@@ -81,7 +81,11 @@ socketAxios.interceptors.response.use(
   }
 );
 
-export const refresh_tokens = async (type: string, stop?: boolean) => {
+export const refresh_tokens = async (
+  type: string,
+  stop?: boolean,
+  updateHook?: () => void
+) => {
   try {
     const refresh_token = token_storage.getString(`${type}_refresh_token`);
     const response = await axios.post(REFRESH_TOKEN, {
@@ -92,6 +96,9 @@ export const refresh_tokens = async (type: string, stop?: boolean) => {
     const new_refresh_token = response.data.refresh_token;
     token_storage.set(`${type}_access_token`, new_access_token);
     token_storage.set(`${type}_refresh_token`, new_refresh_token);
+    if (type != "app" && updateHook) {
+      updateHook();
+    }
     return new_access_token;
   } catch (error) {
     console.log("REFRESH TOKEN EXPIRED!!");
@@ -101,8 +108,9 @@ export const refresh_tokens = async (type: string, stop?: boolean) => {
         msg: "Due to technical issue your session expired, login again",
       },
     });
-    token_storage.clearAll();
-
+    if (type == "app") {
+      token_storage.clearAll();
+    }
     if (stop) {
       resetAndNavigate(
         type == "app" ? "LoginScreen" : "AuthVerificationScreen"

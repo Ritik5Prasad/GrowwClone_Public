@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import Svg from "react-native-svg";
 import * as d3 from "d3-scale";
-
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   useSharedValue,
@@ -15,7 +14,7 @@ import { ReText } from "react-native-redash";
 import { useTheme } from "@react-navigation/native";
 import { FONTS } from "../../../constants/Fonts";
 import { RFValue } from "react-native-responsive-fontsize";
-import { formatDate } from "../../../utils/ValidationUtils";
+import { convertUnixTimeWorklet } from "../../../utils/ValidationUtils";
 import { formatPaisaWorklet } from "../../../utils/NumberUtils";
 import PointerValuesGroup from "./PointerValuesGroup";
 import { screenWidth } from "../../../utils/Scaling";
@@ -31,15 +30,15 @@ const CandleChart: FC<{ data: any[]; height: number; width: number }> = ({
   const chartHeight = height;
   const candleWidth = screenWidth * 0.012;
 
-  const candleCount = data.length;
+  const candleCount = data?.length;
   const candleTotalWidth = candleWidth * candleCount;
   const candleXSpacing = (width - candleTotalWidth) / (candleCount - 1);
 
   const scaleY = d3
     .scaleLinear()
     .domain([
-      Math.min(...data.map((d) => d.low)),
-      Math.max(...data.map((d) => d.high)),
+      Math.min(...data?.map((d) => d.low)),
+      Math.max(...data?.map((d) => d.high)),
     ])
     .range([chartHeight, 0]);
 
@@ -80,8 +79,8 @@ const CandleChart: FC<{ data: any[]; height: number; width: number }> = ({
     if (!value) {
       return "";
     }
-    const date = value?.timestamp;
-    return `₹${value.close} | ${formatDate(date)}`;
+    const time = value?.time;
+    return `₹${value.close} | ${convertUnixTimeWorklet(time)}`;
   };
 
   const scaleYInvert = (y: number) => {
@@ -143,7 +142,7 @@ const CandleChart: FC<{ data: any[]; height: number; width: number }> = ({
       </Animated.View>
       <View>
         <Svg width={width} height={chartHeight}>
-          {data.map((candle, index) => (
+          {data?.map((candle, index) => (
             <Candle
               key={index}
               data={candle}

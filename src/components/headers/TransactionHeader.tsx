@@ -15,6 +15,11 @@ interface StockDetailProps {
 
 const TransactionHeader: FC<StockDetailProps> = ({ stock }) => {
   const { colors } = useTheme();
+  const priceChange = stock?.currentPrice - stock?.lastDayTradedPrice;
+  const percentageChange = Math.abs(
+    (priceChange / stock?.lastDayTradedPrice) * 100
+  ).toFixed(2);
+
   return (
     <View style={styles.container}>
       <View style={styles.flexRow}>
@@ -27,7 +32,7 @@ const TransactionHeader: FC<StockDetailProps> = ({ stock }) => {
 
         <View>
           <CustomText variant="h8" fontFamily={FONTS.Medium}>
-            {stock?.name}
+            {stock?.companyName}
           </CustomText>
           <CustomText
             fontFamily={FONTS.Medium}
@@ -37,10 +42,10 @@ const TransactionHeader: FC<StockDetailProps> = ({ stock }) => {
               opacity: 0.7,
             }}
           >
-            {formatNumberWithCommas(stock?.current_price)}
+            {formatNumberWithCommas(stock?.currentPrice)}
             {"  "}
             <CustomText fontFamily={FONTS.Regular} variant="h9" style={{}}>
-              ({stock?.percentage_change}) Depth
+              ({percentageChange}) Depth
             </CustomText>
           </CustomText>
         </View>

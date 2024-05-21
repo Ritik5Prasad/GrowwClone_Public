@@ -1,22 +1,24 @@
 import { Colors } from "../constants/Colors";
 
 export const formatNumberWithCommas = (number: number): string => {
-  return `${number?.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+  return `${number?.toFixed(2)?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 };
 
 export const getSignText = (number: number): string => {
-  return number > 0 ? `+${String(number)}` : number.toString();
+  return number > 0
+    ? `+${String(number?.toFixed(2))}`
+    : number?.toFixed(2)?.toString();
 };
 
 export const formatPaisaWithCommas = (number: number): string => {
-  return `₹${number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+  return `₹${number?.toFixed(2)?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 };
 
 export const formatPaisaWorklet = (number: number): string => {
   "worklet";
   return !number
     ? `---`
-    : `${number?.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+    : `${number?.toFixed(2)?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 };
 
 interface signPaisaProps {
@@ -26,9 +28,9 @@ interface signPaisaProps {
 export const getSignPaisa = (number: number): signPaisaProps => {
   let paisa: any = Math.abs(number);
   paisa = paisa
-    .toFixed(2)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    .toString();
+    ?.toFixed(2)
+    ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    ?.toString();
 
   return {
     paisa: number > 0 ? `+ ₹${paisa}` : `- ₹${paisa}`,

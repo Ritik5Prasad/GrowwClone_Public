@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import React, { FC } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useTheme } from "@react-navigation/native";
@@ -19,6 +19,7 @@ interface StockDetailProps {
 
 const StockDetailHeader: FC<StockDetailProps> = ({ stock, isVisible }) => {
   const { colors } = useTheme();
+
   return (
     <View
       style={[
@@ -39,7 +40,7 @@ const StockDetailHeader: FC<StockDetailProps> = ({ stock, isVisible }) => {
         {isVisible && (
           <View>
             <CustomText variant="h8" fontFamily={FONTS.Medium}>
-              {stock?.name}
+              {stock?.companyName}
             </CustomText>
             <CustomText
               fontFamily={FONTS.Medium}
@@ -48,13 +49,13 @@ const StockDetailHeader: FC<StockDetailProps> = ({ stock, isVisible }) => {
                 marginTop: 4,
               }}
             >
-              {formatNumberWithCommas(stock?.current_price)}{" "}
+              {formatNumberWithCommas(stock?.currentPrice || 0)}{" "}
               <CustomText
                 variant="h9"
                 fontFamily={FONTS.Medium}
-                style={{ color: getSignPaisa(stock?.price_change).color }}
+                style={{ color: getSignPaisa(stock?.priceChange).color }}
               >
-                {getSignText(stock?.price_change)} ({stock?.percentage_change})
+                {getSignText(stock?.priceChange)} ({stock?.percentageChange}%)
               </CustomText>
             </CustomText>
           </View>

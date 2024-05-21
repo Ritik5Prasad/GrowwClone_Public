@@ -50,3 +50,52 @@ export const formatDate = (timestamp: any) => {
   const year = date.getFullYear();
   return `${day} ${month}, ${year}`;
 };
+
+export const convertUnixTimestamp = (timestamp: number) => {
+  const dateObj = new Date(timestamp * 1000);
+
+  let hours = dateObj.getHours();
+  const minutes = dateObj.getMinutes();
+
+  let period = "AM";
+  if (hours >= 12) {
+    period = "PM";
+    hours -= 12;
+  }
+  if (hours === 0) {
+    hours = 12;
+  }
+
+  const formattedHours = hours < 10 ? `0${hours}` : `${hours}`;
+
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+
+  const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
+
+  return formattedTime;
+};
+
+export const convertUnixTimeWorklet = (timestamp: number) => {
+  "worklet";
+  const dateObj = new Date(timestamp * 1000);
+
+  let hours = dateObj.getHours();
+  const minutes = dateObj.getMinutes();
+
+  let period = "AM";
+  if (hours >= 12) {
+    period = "PM";
+    hours -= 12;
+  }
+  if (hours === 0) {
+    hours = 12;
+  }
+
+  const formattedHours = hours < 10 ? `0${hours}` : `${hours}`;
+
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+
+  const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
+
+  return formattedTime;
+};

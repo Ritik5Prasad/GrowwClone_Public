@@ -13,6 +13,7 @@ import { loginWithBiometrics } from "../../utils/BiometricsUtils";
 import { useAppDispatch, useAppSelector } from "../../redux/reduxHook";
 import { Logout, VerifyPin } from "../../redux/actions/userAction";
 import { selectUser } from "../../redux/reducers/userSlice";
+import { useWS } from "../../utils/WSProvider";
 
 const initialState = ["", "", "", ""];
 
@@ -27,6 +28,7 @@ const BiometricVerification: FC<BiometricProp> = ({ onForgotPin }) => {
   const [loading, setLoading] = useState(false);
   const [otpError, setOtpError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
+  const { updateAccessToken } = useWS();
 
   const handlePressNumber = (number: number | string) => {
     if (focusedIndex < otpValues.length) {
@@ -77,7 +79,7 @@ const BiometricVerification: FC<BiometricProp> = ({ onForgotPin }) => {
     if (!valid) {
       setLoading(true);
       const { result, msg } = await dispatch(
-        VerifyPin({ login_pin: otpValues.join("") })
+        VerifyPin({ login_pin: otpValues.join("") }, updateAccessToken)
       );
       if (!result) {
         setOtpError(msg);

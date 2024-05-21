@@ -1,10 +1,8 @@
 import {
   View,
-  Text,
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import React, { FC } from "react";
 import { Colors } from "../../../constants/Colors";
@@ -12,14 +10,13 @@ import { screenHeight } from "../../../utils/Scaling";
 import { useTheme } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { RFValue } from "react-native-responsive-fontsize";
-import { candleChartData } from "../../../utils/staticData";
 import CandleChart from "./CandleChart";
 import { screenWidth } from "react-native-gifted-charts/src/utils";
 
 const height = screenHeight * 0.28;
 interface TradeChartProps {
   loading: boolean;
-  data: Record<string, any>;
+  data: object[];
   color: string;
   onPressExpand: () => void;
 }
@@ -46,7 +43,7 @@ const TradeChart: FC<TradeChartProps> = ({
           }}
         >
           <CandleChart
-            data={candleChartData}
+            data={data}
             width={screenWidth - 40}
             height={height - 40}
           />

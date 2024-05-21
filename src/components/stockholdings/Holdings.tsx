@@ -1,5 +1,5 @@
 import { View, RefreshControl, StyleSheet, Image } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Colors } from "../../constants/Colors";
 import { Tabs } from "react-native-collapsible-tab-view";
 import CustomText from "../global/CustomText";
@@ -10,14 +10,27 @@ import NoHoldingLight from "../../assets/images/no_holding_light.png";
 import NoHoldingDark from "../../assets/images/no_holding_dark.png";
 import { screenHeight, screenWidth } from "../../utils/Scaling";
 import { useCustomColorScheme } from "../../navigation/Theme";
+import { useAppDispatch, useAppSelector } from "../../redux/reduxHook";
+import { selectHoldings } from "../../redux/reducers/stockSlice";
+import { getAllHoldings } from "../../redux/actions/stockAction";
 
 const Holdings = () => {
+  const dispatch = useAppDispatch();
+  const holdingData = useAppSelector(selectHoldings);
+  const fetchHoldings = async () => {
+    await dispatch(getAllHoldings());
+  };
   const [refereshing, setRefreshing] = useState(false);
   const refreshHandler = async () => {
+    fetchHoldings();
     setRefreshing(false);
   };
 
   const theme = useCustomColorScheme();
+
+  useEffect(() => {
+    fetchHoldings();
+  }, []);
 
   return (
     <Tabs.ScrollView
@@ -32,17 +45,17 @@ const Holdings = () => {
         />
       }
     >
-      {true ? (
+      {holdingData.length != 0 ? (
         <>
           <CustomText
             variant="h6"
             style={styles.sectionContainer}
             fontFamily={FONTS.Medium}
           >
-            Holdings (2)
+            Holdings ({holdingData.length})
           </CustomText>
-          <HoldingCard />
-          <HoldingList />
+          <HoldingCard data={holdingData} />
+          <HoldingList data={holdingData} />
         </>
       ) : (
         <View style={styles.emptyContainer}>

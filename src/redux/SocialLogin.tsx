@@ -4,6 +4,7 @@ import {
   appleAuth,
   appleAuthAndroid,
 } from "@invertase/react-native-apple-authentication";
+import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
 import { OAUTH } from "./API";
@@ -42,8 +43,8 @@ export const signInWithAppleAndroid = () => async (dispatch: any) => {
     const state = uuid();
 
     appleAuthAndroid.configure({
-      clientId: "YOUR_APPLE_SERVICE_ID_REFER_CHAPTER_5",
-      redirectUri: "YOUR_APPLE_SERVICE_CALLBACK_REFER_CHAPTER_5",
+      clientId: "com.ritik.applesign",
+      redirectUri: "https://backend.myapp.com/apple_signin/callback",
       responseType: appleAuthAndroid.ResponseType.ALL,
       scope: appleAuthAndroid.Scope.ALL,
       nonce: rawNonce,

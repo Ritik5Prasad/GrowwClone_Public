@@ -1,9 +1,10 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   View,
   ScrollView,
   StyleSheet,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import {
   ParamListBase,
@@ -22,21 +23,74 @@ import { FONTS } from "../../constants/Fonts";
 import { formatPaisaWithCommas, hexToRGBA } from "../../utils/NumberUtils";
 import { Colors } from "../../constants/Colors";
 import CustomButton from "../../components/global/CustomButton";
-import { navigate, resetAndNavigate } from "../../utils/NavigationUtil";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/reducers/userSlice";
+import { useAppDispatch } from "../../redux/reduxHook";
+import {
+  buyStock,
+  getAllHoldings,
+  sellStock,
+} from "../../redux/actions/stockAction";
+import { selectHoldings } from "../../redux/reducers/stockSlice";
+import { refetchUser } from "../../redux/actions/userAction";
+import { useWS } from "../../utils/WSProvider";
 
 interface ParamsType {
   stock?: any;
   type?: string;
 }
+type Stock = {
+  __v: number;
+  _id: string;
+  companyName: string;
+  currentPrice: number;
+  iconUrl: string;
+  lastDayTradedPrice: number;
+  symbol: string;
+  dayTimeSeries: Array<TimeSeries>;
+  tenMinTimeSeries: Array<TimeSeries>;
+};
+
+type TimeSeries = {
+  _internal_originalTime: number;
+  close: number;
+  high: number;
+  low: number;
+  open: number;
+  time: number;
+  timestamp: string;
+};
 
 const Transaction: FC = () => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(refetchUser());
+    dispatch(getAllHoldings());
+  }, []);
+
   const route = useRoute<RouteProp<ParamListBase>>();
   const stockData = (route.params as ParamsType)?.stock || null;
   const transaction_type = (route.params as ParamsType)?.type || null;
   const { colors } = useTheme();
+  const user = useSelector(selectUser);
+  const holdings = useSelector(selectHoldings);
+  const socketService = useWS();
+
+  const [stockSocketData, setSocketStockData] = useState<Stock | any>(null);
+  useEffect(() => {
+    if (socketService && stockData.symbol) {
+      socketService.emit("subscribeToStocks", stockData.symbol);
+
+      socketService.on(stockData.symbol, (data) => {
+        setSocketStockData(data);
+      });
+
+      return () => {};
+    }
+  }, [socketService]);
 
   const [formState, setFormState] = useState({
-    quantity: undefined as number | undefined,
+    quantity: 0,
     loading: false,
     disabled: true,
     error: false,
@@ -48,14 +102,53 @@ const Transaction: FC = () => {
       setFormState({
         ...formState,
         quantity: parsedQuantity,
-        disabled: parsedQuantity < 10 || parsedQuantity > 1000,
+        disabled: parsedQuantity < 0 || parsedQuantity > 1000,
       });
     } else {
       setFormState({
         ...formState,
-        quantity: undefined,
+        quantity: 0,
         disabled: true,
       });
+    }
+  };
+
+  const buyTransaction = async () => {
+    if (formState.quantity != 0) {
+      await dispatch(
+        buyStock({
+          stock_id: stockData?._id,
+          quantity: formState.quantity,
+          amount: formState?.quantity * stockSocketData?.currentPrice,
+          companyName: stockData?.companyName,
+        })
+      );
+    } else {
+      Alert.alert("Quantity should be more than 0");
+    }
+  };
+
+  const sellTransaction = async () => {
+    // If you have multiple holdings of same stock then first found one will be executed
+    const holding = holdings.find(
+      (h: any) => h.stock.symbol === stockData?.symbol
+    ) as any;
+
+    if (
+      holding &&
+      formState.quantity != 0 &&
+      formState?.quantity <= holding?.quantity
+    ) {
+      await dispatch(
+        sellStock({
+          holdingId: holding._id,
+          quantity: formState.quantity,
+          amount: formState?.quantity * stockSocketData?.currentPrice,
+          companyName: stockData?.companyName,
+        })
+      );
+    } else {
+      Alert.alert("Enter limited holding qunatity");
     }
   };
 
@@ -67,7 +160,7 @@ const Transaction: FC = () => {
     >
       <CustomSafeAreaView style={{ paddingHorizontal: 0 }}>
         <View style={{ paddingHorizontal: 10, flex: 1 }}>
-          <TransactionHeader stock={stockData} />
+          <TransactionHeader stock={stockSocketData} />
           <ScrollView>
             <View style={{ flexDirection: "row" }}>
               <CircleTab
@@ -142,7 +235,7 @@ const Transaction: FC = () => {
                   paddingEnd: 0,
                 }}
                 pointerEvents="none"
-                value={stockData?.current_price.toString()}
+                value={stockSocketData?.currentPrice?.toString()}
                 keyboardType="numeric"
                 textInputStyle={{
                   color: Colors.profit,
@@ -175,17 +268,25 @@ const Transaction: FC = () => {
               opacity: 0.7,
             }}
           >
-            <CustomText variant="h9">Balance: ------</CustomText>
             <CustomText variant="h9">
-              Required:{" "}
+              Balance: {`₹${user?.balance}` || "------"}{" "}
+            </CustomText>
+            <CustomText variant="h9">
+              {transaction_type == "BUY" ? "Required" : "Sell Amount"}:{" "}
               {formatPaisaWithCommas(
-                (formState?.quantity || 0) * stockData?.current_price
+                (formState?.quantity || 0) * stockSocketData?.currentPrice
               )}
             </CustomText>
           </View>
           <CustomButton
             text={transaction_type || ""}
-            onPress={() => resetAndNavigate("TransactionSuccess")}
+            onPress={async () => {
+              if (transaction_type == "SELL") {
+                await sellTransaction();
+              } else {
+                await buyTransaction();
+              }
+            }}
             loading={formState.loading}
             disabled={formState.disabled}
           />

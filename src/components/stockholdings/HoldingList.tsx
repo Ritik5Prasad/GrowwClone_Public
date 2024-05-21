@@ -1,15 +1,18 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import React, { FC } from "react";
 import { useTheme } from "@react-navigation/native";
 import CustomText from "../global/CustomText";
 import { FONTS } from "../../constants/Fonts";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { RFValue } from "react-native-responsive-fontsize";
-import { holdingsData } from "../../utils/staticData";
 import HoldingListItem from "./HoldingListItem";
 import TouchableText from "../auth/TouchableText";
 
-const HoldingList = () => {
+interface HoldingProps {
+  data: Record<string, any>;
+}
+
+const HoldingList: FC<HoldingProps> = ({ data }) => {
   const { colors } = useTheme();
   return (
     <View style={styles.container}>
@@ -41,7 +44,7 @@ const HoldingList = () => {
         </TouchableOpacity>
       </View>
 
-      {holdingsData?.map((item, index) => {
+      {data?.map((item: any, index: number) => {
         return <HoldingListItem key={index} item={item} />;
       })}
 

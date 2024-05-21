@@ -19,11 +19,12 @@ import OtpTimer from "../../components/auth/OtpTimer";
 import { useAppDispatch, useAppSelector } from "../../redux/reduxHook";
 import { SendOTP, VerifyOTP } from "../../redux/actions/userAction";
 import { selectUser } from "../../redux/reducers/userSlice";
+import { useCustomColorScheme } from "../../navigation/Theme";
 
 const PhoneScreen = () => {
   const { colors } = useTheme();
   const user = useAppSelector(selectUser);
-    const theme = useCustomColorScheme();;
+  const theme = useCustomColorScheme();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);

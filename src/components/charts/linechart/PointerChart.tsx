@@ -7,6 +7,7 @@ import { screenWidth } from "react-native-gifted-charts/src/utils";
 import { formatPaisaWithCommas, hexToRGBA } from "../../../utils/NumberUtils";
 import { ptData2 } from "../../../utils/staticData";
 import { Colors } from "../../../constants/Colors";
+import { convertUnixTimestamp } from "../../../utils/ValidationUtils";
 
 interface Chart {
   height: number;
@@ -61,7 +62,7 @@ const PointerChart: FC<Chart> = ({ height, data, color }) => {
         persistPointer: true,
         shiftPointerLabelY: -12,
         resetPointerOnDataChange: false,
-        hideSecondaryPointer:true,
+        hideSecondaryPointer: true,
         pointerStripUptoDataPoint: false,
         pointerComponent: (item: any) => {
           return (
@@ -111,7 +112,8 @@ const PointerChart: FC<Chart> = ({ height, data, color }) => {
                 style={{ textAlign: "center" }}
                 variant="h9"
               >
-                {formatPaisaWithCommas(items[0]?.value)} | {items[0].date}
+                {formatPaisaWithCommas(items[0]?.value)} |{" "}
+                {convertUnixTimestamp(items[0].time)}
               </CustomText>
             </View>
           );
