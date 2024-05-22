@@ -43,8 +43,8 @@ export const signInWithAppleAndroid = () => async (dispatch: any) => {
     const state = uuid();
 
     appleAuthAndroid.configure({
-      clientId: "com.ritik.applesign",
-      redirectUri: "https://backend.myapp.com/apple_signin/callback",
+      clientId: "your_service_id_refer_chapter_5",
+      redirectUri: "https://xyz.your.redirect.myapp.com/apple_signin/callback",
       responseType: appleAuthAndroid.ResponseType.ALL,
       scope: appleAuthAndroid.Scope.ALL,
       nonce: rawNonce,
